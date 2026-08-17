@@ -1,141 +1,242 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import API from "../services/api";
+import { toast } from "react-toastify";
 
-function Settings() {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+function VoiceExpense({ onTransactionAdded }) {
+  const [transcript, setTranscript] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const [parsedData, setParsedData] = useState({
+    title: "",
+    amount: "",
+    category: "",
+    type: "",
+  });
 
-  const changePassword = async (e) => {
-    e.preventDefault();
+  // ---------------------------
+  // Start Voice Recognition
+  // ---------------------------
+  const startListening = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    // Check password match
-    if (newPassword !== confirmPassword) {
-      toast.error("New passwords do not match");
+    if (!SpeechRecognition) {
+      toast.error("Speech Recognition not supported");
       return;
     }
 
-    // Check password length
-    if (newPassword.length < 6) {
-      toast.error("New password must be at least 6 characters");
-      return;
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const text = event.results[0][0].transcript;
+
+      setTranscript(text);
+
+      parseVoice(text);
+    };
+
+    recognition.onerror = () => {
+      toast.error("Voice recognition failed");
+    };
+  };
+
+  // ---------------------------
+  // Parse Spoken Text
+  // ---------------------------
+  const parseVoice = (text) => {
+    const lower = text.toLowerCase();
+
+    let type = "";
+
+    if (
+      lower.includes("spend") ||
+      lower.includes("spent") ||
+      lower.includes("expense") ||
+      lower.includes("paid") ||
+      lower.includes("pay") ||
+      lower.includes("bought")||
+      lower.includes("buy")
+    ) {
+      type = "Expense";
     }
 
+    if (
+      lower.includes("income") ||
+      lower.includes("earned") ||
+      lower.includes("earn") ||
+      lower.includes("salary") ||
+      lower.includes("received") ||
+      lower.includes("receive")
+    ) {
+      type = "Income";
+    }
+
+    // Amount
+    const amountMatch = lower.match(/\d+/);
+
+    const amount = amountMatch ? amountMatch[0] : "";
+
+    // Categories
+    const categories = [
+      "food",
+  "transport",
+  "petrol",
+  "fuel",
+  "shopping",
+  "salary",
+  "rent",
+  "travel",
+  "medical",
+  "education",
+  "entertainment",
+  "other",
+    ];
+
+    let category = "Other";
+
+    categories.forEach((item) => {
+      if (lower.includes(item)) {
+        category =
+          item.charAt(0).toUpperCase() +
+          item.slice(1);
+      }
+    });
+
+    // Remove keywords to create title
+    let title = text;
+
+    title = title.replace(/\d+/g, "");
+
+    title = title.replace(
+      /spent|expense|paid|bought|income|earned|salary|received/gi,
+      ""
+    );
+
+    title = title.trim();
+
+    setParsedData({
+      title,
+      amount,
+      category,
+      type,
+    });
+  };
+
+  // ---------------------------
+  // Save Transaction
+  // ---------------------------
+  const addTransaction = async () => {
     try {
-      setLoading(true);
+      if (
+        !parsedData.title ||
+        !parsedData.amount ||
+        !parsedData.type
+      ) {
+        toast.error("Unable to detect transaction.");
+        return;
+      }
 
-      await API.put("/auth/change-password", {
-        currentPassword,
-        newPassword,
+      await API.post("/expenses", {
+        title: parsedData.title,
+        amount: Number(parsedData.amount),
+        category: parsedData.category,
+        type: parsedData.type,
       });
 
-      toast.success("Password changed successfully!");
+      toast.success("Transaction Added Successfully");
 
-      // Clear fields
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
+      setTranscript("");
+
+      setParsedData({
+        title: "",
+        amount: "",
+        category: "",
+        type: "",
+      });
+
+      if (onTransactionAdded) {
+        onTransactionAdded();
+      }
 
     } catch (err) {
-      console.log("Change Password Error:", err);
+      console.log(err);
 
       toast.error(
         err.response?.data?.message ||
-        "Unable to change password"
+        "Unable to add transaction"
       );
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="card mt-3 shadow">
 
-      <div className="card shadow">
+      <div className="card-header bg-info text-white">
+        <h4 className="mb-0">
+          🎤 Voice Expense Entry
+        </h4>
+      </div>
 
-        <div className="card-header bg-dark text-white">
-          <h3 className="mb-0">
-            ⚙️ Settings
-          </h3>
-        </div>
+      <div className="card-body">
 
-        <div className="card-body">
+        <button
+          className="btn btn-primary"
+          onClick={startListening}
+        >
+          🎤 Start Speaking
+        </button>
 
-          <h4>🔐 Change Password</h4>
+        {transcript && (
+          <>
+            <hr />
 
-          <form onSubmit={changePassword}>
+            <h6>You Said:</h6>
 
-            {/* Current Password */}
-            <div className="mb-3">
-              <label className="form-label">
-                Current Password
-              </label>
-
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter current password"
-                value={currentPassword}
-                onChange={(e) =>
-                  setCurrentPassword(e.target.value)
-                }
-                disabled={loading}
-              />
+            <div className="alert alert-secondary">
+              {transcript}
             </div>
 
-            {/* New Password */}
-            <div className="mb-3">
-              <label className="form-label">
-                New Password
-              </label>
+            <table className="table">
 
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) =>
-                  setNewPassword(e.target.value)
-                }
-                disabled={loading}
-              />
-            </div>
+              <tbody>
 
-            {/* Confirm Password */}
-            <div className="mb-3">
-              <label className="form-label">
-                Confirm New Password
-              </label>
+                <tr>
+                  <th>Title</th>
+                  <td>{parsedData.title}</td>
+                </tr>
 
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) =>
-                  setConfirmPassword(e.target.value)
-                }
-                disabled={loading}
-              />
-            </div>
+                <tr>
+                  <th>Amount</th>
+                  <td>{parsedData.amount}</td>
+                </tr>
 
-            {/* Button */}
+                <tr>
+                  <th>Category</th>
+                  <td>{parsedData.category}</td>
+                </tr>
+
+                <tr>
+                  <th>Type</th>
+                  <td>{parsedData.type}</td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
             <button
-              type="submit"
               className="btn btn-success"
-              disabled={loading}
+              onClick={addTransaction}
             >
-              {loading
-                ? "Changing Password..."
-                : "🔐 Change Password"}
+              ➕ Add Transaction
             </button>
-
-          </form>
-
-        </div>
+          </>
+        )}
 
       </div>
 
@@ -143,4 +244,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default VoiceExpense;
