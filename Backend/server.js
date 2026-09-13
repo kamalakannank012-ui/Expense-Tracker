@@ -13,8 +13,6 @@ import aiRoutes from "./routes/aiRoutes.js";
 import aiChatRoutes from "./routes/aiChatRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import voiceRoutes from "./routes/voiceRoutes.js";
-
-console.log(process.env.GROQ_API_KEY);
 console.log("Starting server...");
 
 connectDB();
