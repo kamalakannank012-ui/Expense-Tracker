@@ -1,104 +1,992 @@
-/* =====================================================
-   MOBILE-FIRST EXPENSE TRACKER
-   ===================================================== */
+/* =========================================================
+   EXPENSE TRACKER - PROFESSIONAL FINTECH THEME
+   Desktop + Tablet + Mobile
+   ========================================================= */
 
-/* Prevent horizontal scrolling */
-html,
-body,
-#root {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+/* =========================================================
+   1. COLOR SYSTEM
+   ========================================================= */
+
+:root {
+  --bg: #F5F7FA;
+  --card: #FFFFFF;
+
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #EFF6FF;
+
+  --success: #16A34A;
+  --success-light: #F0FDF4;
+
+  --danger: #DC2626;
+  --danger-light: #FEF2F2;
+
+  --warning: #F59E0B;
+  --warning-light: #FFFBEB;
+
+  --text: #111827;
+  --secondary: #6B7280;
+  --muted: #9CA3AF;
+
+  --border: #E5E7EB;
+
+  --shadow-sm: 0 2px 8px rgba(17, 24, 39, 0.05);
+  --shadow-md: 0 6px 20px rgba(17, 24, 39, 0.08);
+  --shadow-lg: 0 12px 30px rgba(17, 24, 39, 0.10);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --max-width: 1200px;
 }
 
+
+/* =========================================================
+   2. RESET
+   ========================================================= */
+
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Main app */
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   3. GENERAL ELEMENTS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+  font-weight: 700;
+}
+
+p {
+  color: var(--secondary);
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+
+/* =========================================================
+   4. COMMON CONTAINER
+   ========================================================= */
+
 .app,
 .dashboard,
 .dashboard-container,
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
+  padding: 24px;
 }
 
-/* Cards */
+
+/* =========================================================
+   5. NAVIGATION
+   ========================================================= */
+
+nav {
+  width: 100%;
+  min-height: 70px;
+
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 40px;
+
+  box-shadow: var(--shadow-sm);
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  list-style: none;
+}
+
+nav li {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+nav li:hover {
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   6. HERO
+   ========================================================= */
+
+.hero {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 40px 20px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  color: var(--primary);
+  margin-bottom: 18px;
+}
+
+.hero p {
+  max-width: 650px;
+  font-size: 18px;
+  color: var(--secondary);
+}
+
+.hero button {
+  margin-top: 30px;
+
+  padding: 14px 32px;
+
+  background: var(--primary);
+  color: white;
+
+  border: none;
+  border-radius: var(--radius-md);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.hero button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+
+/* =========================================================
+   7. DASHBOARD LAYOUT
+   ========================================================= */
+
+.dashboard {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.dashboard h1 {
+  font-size: 34px;
+  margin-bottom: 24px;
+}
+
+
+/* Bootstrap / common rows */
+
+.row,
+.dashboard-row,
+.content,
+.main-content {
+  width: 100%;
+}
+
+
+/* =========================================================
+   8. COMMON CARD
+   ========================================================= */
+
 .card,
+.dashboard-card,
 .budget-card,
 .income-card,
-.expense-card,
-.dashboard-card {
+.expense-card {
   width: 100%;
-  max-width: 100%;
-  border-radius: 16px;
-  margin-bottom: 16px;
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  color: var(--text);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-/* Inputs */
+.card:hover,
+.dashboard-card:hover,
+.budget-card:hover,
+.income-card:hover,
+.expense-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+
+/* =========================================================
+   9. BUDGET CARD
+   ========================================================= */
+
+.budget-card {
+  border-left: 5px solid var(--primary);
+
+  padding: 24px;
+
+  background: var(--card);
+}
+
+.budget-card h2,
+.budget-card h3 {
+  color: var(--text);
+}
+
+.budget-card input {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: #FFFFFF;
+  color: var(--text);
+
+  font-size: 16px;
+
+  margin-top: 12px;
+}
+
+.budget-card input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   10. INCOME CARD
+   ========================================================= */
+
+.income-card {
+  border-left: 5px solid var(--success);
+  padding: 24px;
+}
+
+.income-card h2,
+.income-card h3 {
+  color: var(--success);
+}
+
+
+/* =========================================================
+   11. EXPENSE CARD
+   ========================================================= */
+
+.expense-card {
+  border-left: 5px solid var(--danger);
+  padding: 24px;
+}
+
+.expense-card h2,
+.expense-card h3 {
+  color: var(--danger);
+}
+
+
+/* =========================================================
+   12. BUTTONS
+   ========================================================= */
+
+button {
+  border: none;
+  border-radius: var(--radius-md);
+
+  padding: 12px 20px;
+
+  background: var(--primary);
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   13. INPUTS
+   ========================================================= */
+
 input,
 textarea,
-select,
-button {
-  max-width: 100%;
+select {
+  width: 100%;
+
+  background: #FFFFFF;
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  padding: 13px 15px;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-/* =====================================================
-   MOBILE
-   ===================================================== */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
 
-@media (max-width: 768px) {
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10);
+}
 
-  body {
-    background: #F5F7FA;
-    font-size: 15px;
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   14. LOGIN
+   ========================================================= */
+
+.login-container {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #F5F7FA 0%,
+      #EFF6FF 100%
+    );
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+
+  background: var(--card);
+
+  padding: 38px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-lg);
+}
+
+.login-box h1 {
+  text-align: center;
+
+  color: var(--text);
+
+  margin-bottom: 30px;
+
+  font-size: 30px;
+}
+
+.login-box input {
+  width: 100%;
+
+  padding: 14px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.login-box button {
+  width: 100%;
+  padding: 14px;
+
+  background: var(--primary);
+  color: white;
+}
+
+.login-box p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-box span {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   15. REGISTER
+   ========================================================= */
+
+.register-container {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #F5F7FA 0%,
+      #EFF6FF 100%
+    );
+}
+
+.register-box {
+  width: 100%;
+  max-width: 440px;
+
+  background: var(--card);
+
+  padding: 38px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-lg);
+}
+
+.register-box h1 {
+  text-align: center;
+
+  color: var(--text);
+
+  margin-bottom: 30px;
+
+  font-size: 30px;
+}
+
+.register-box input {
+  width: 100%;
+
+  padding: 14px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.register-box button {
+  width: 100%;
+  padding: 14px;
+
+  background: var(--primary);
+  color: white;
+}
+
+.register-box p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-box span {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   16. AI FINANCIAL ASSISTANT
+   ========================================================= */
+
+/*
+   These selectors cover common names used for the
+   AI/chat container.
+*/
+
+.ai-assistant,
+.ai-chat,
+.chat-container,
+.chat-box,
+.assistant-container {
+  width: 100%;
+  max-width: 100%;
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-md);
+
+  overflow: hidden;
+}
+
+
+/* AI Header */
+
+.ai-assistant-header,
+.chat-header {
+  width: 100%;
+
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 20px;
+
+  background: var(--primary);
+  color: white;
+}
+
+.ai-assistant-header h2,
+.ai-assistant-header h3,
+.chat-header h2,
+.chat-header h3 {
+  color: white;
+}
+
+
+/* Clear Chat button */
+
+.ai-assistant-header button,
+.chat-header button {
+  background: white;
+  color: var(--text);
+
+  padding: 9px 14px;
+
+  border-radius: var(--radius-sm);
+
+  font-size: 14px;
+}
+
+.ai-assistant-header button:hover,
+.chat-header button:hover {
+  background: #F3F4F6;
+  color: var(--primary);
+}
+
+
+/* Chat messages */
+
+.messages,
+.chat-messages,
+.message-container {
+  width: 100%;
+
+  min-height: 320px;
+  max-height: 450px;
+
+  padding: 20px;
+
+  background: #FAFBFC;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+/* Scrollbar */
+
+.messages::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar,
+.message-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb,
+.message-container::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 10px;
+}
+
+
+/* Chat bubbles */
+
+.message,
+.user-message,
+.ai-message {
+  max-width: 75%;
+
+  width: fit-content;
+
+  padding: 12px 15px;
+
+  margin-bottom: 12px;
+
+  border-radius: 14px;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* User */
+
+.user-message {
+  margin-left: auto;
+
+  background: var(--primary);
+  color: white;
+
+  border-bottom-right-radius: 4px;
+}
+
+
+/* AI */
+
+.ai-message {
+  margin-right: auto;
+
+  background: white;
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-bottom-left-radius: 4px;
+}
+
+
+/* Chat input */
+
+.chat-input,
+.ai-input {
+  width: 100%;
+
+  display: flex;
+  gap: 10px;
+
+  padding: 14px;
+
+  background: white;
+
+  border-top: 1px solid var(--border);
+}
+
+.chat-input input,
+.ai-input input {
+  flex: 1;
+
+  min-width: 0;
+
+  margin: 0;
+}
+
+.chat-input button,
+.ai-input button {
+  flex-shrink: 0;
+
+  padding: 12px 18px;
+}
+
+
+/* =========================================================
+   17. VOICE EXPENSE ENTRY
+   ========================================================= */
+
+.voice-expense,
+.voice-container {
+  width: 100%;
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  padding: 20px;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.voice-expense h2,
+.voice-expense h3,
+.voice-container h2,
+.voice-container h3 {
+  color: var(--text);
+}
+
+.voice-expense button,
+.voice-container button {
+  background: var(--primary);
+}
+
+.voice-expense button:hover,
+.voice-container button:hover {
+  background: var(--primary-dark);
+}
+
+
+/* =========================================================
+   18. PROFILE
+   ========================================================= */
+
+.profile,
+.profile-container {
+  max-width: 100%;
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   19. TABLES
+   ========================================================= */
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: white;
+
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+}
+
+th {
+  background: #F9FAFB;
+
+  color: var(--text);
+
+  font-weight: 600;
+
+  padding: 14px;
+
+  text-align: left;
+
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 14px;
+
+  color: var(--secondary);
+
+  border-bottom: 1px solid var(--border);
+}
+
+tr:hover td {
+  background: #F9FAFB;
+}
+
+
+/* =========================================================
+   20. DESKTOP DASHBOARD GRID
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  .dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  /* Main containers */
+  /*
+     If your dashboard uses Bootstrap rows,
+     keep columns side-by-side on desktop.
+  */
+
+  .dashboard .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+}
+
+
+/* =========================================================
+   21. TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  nav {
+    padding: 14px 22px;
+  }
+
   .app,
   .dashboard,
   .dashboard-container,
   .container {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 12px !important;
+    padding: 20px;
   }
 
-  /* Remove desktop side-by-side layouts */
-  .row,
-  .dashboard-row,
-  .content,
-  .main-content {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 14px !important;
+  .message,
+  .user-message,
+  .ai-message {
+    max-width: 82%;
   }
 
-  /* Every column takes full width */
-  .col,
-  .col-md-4,
-  .col-md-6,
-  .col-md-8,
-  .col-lg-4,
-  .col-lg-6,
-  .col-lg-8 {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: none !important;
+}
+
+
+/* =========================================================
+   22. MOBILE - MAIN
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 15px;
   }
 
-  /* Dashboard title */
+  .app,
+  .dashboard,
+  .dashboard-container,
+  .container {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 12px;
+
+    margin: 0;
+  }
+
+
+  /* -----------------------------------------------
+     NAVIGATION
+     ----------------------------------------------- */
+
+  nav {
+    min-height: 60px;
+
+    padding: 12px 14px;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+  }
+
+  nav ul {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+  }
+
+  nav li {
+    font-size: 14px;
+  }
+
+
+  /* -----------------------------------------------
+     HEADINGS
+     ----------------------------------------------- */
+
   h1 {
-    font-size: 28px !important;
+    font-size: 27px !important;
     line-height: 1.2;
-    text-align: center;
-    margin: 10px 0 20px;
   }
 
   h2 {
@@ -109,136 +997,286 @@ button {
     font-size: 19px !important;
   }
 
-  /* =================================================
-     BUDGET / INCOME / EXPENSE CARDS
-     ================================================= */
+  .dashboard h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+
+  /* -----------------------------------------------
+     FORCE DASHBOARD SINGLE COLUMN
+     ----------------------------------------------- */
+
+  .dashboard .row,
+  .dashboard-row,
+  .content,
+  .main-content {
+    width: 100% !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 14px !important;
+
+    margin: 0 !important;
+  }
+
+
+  /* Bootstrap columns */
+
+  .dashboard .col,
+  .dashboard .col-12,
+  .dashboard .col-md-4,
+  .dashboard .col-md-6,
+  .dashboard .col-md-8,
+  .dashboard .col-lg-4,
+  .dashboard .col-lg-6,
+  .dashboard .col-lg-8 {
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    flex: 0 0 100% !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+
+  /* -----------------------------------------------
+     CARDS
+     ----------------------------------------------- */
 
   .card,
+  .dashboard-card,
   .budget-card,
   .income-card,
-  .expense-card,
-  .dashboard-card {
-    padding: 18px !important;
-    min-height: auto !important;
-  }
-
-  /* Budget input */
-  input {
+  .expense-card {
     width: 100% !important;
-    min-height: 52px;
-    font-size: 16px !important;
+
+    max-width: 100% !important;
+
+    margin: 0 0 14px 0 !important;
+
+    padding: 18px !important;
+
+    border-radius: 16px;
   }
 
-  button {
-    min-height: 48px;
+
+  /* -----------------------------------------------
+     BUDGET
+     ----------------------------------------------- */
+
+  .budget-card input {
+    min-height: 50px;
+
     font-size: 16px;
   }
 
-  /* =================================================
+
+  /* -----------------------------------------------
+     BUTTONS
+     ----------------------------------------------- */
+
+  button {
+    min-height: 46px;
+
+    font-size: 15px;
+  }
+
+
+  /* -----------------------------------------------
      AI ASSISTANT
-     ================================================= */
+     ----------------------------------------------- */
 
   .ai-assistant,
   .ai-chat,
   .chat-container,
   .chat-box,
   .assistant-container {
-    position: static !important;
+
+    position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+
     width: 100% !important;
     max-width: 100% !important;
+
     min-width: 0 !important;
+
     height: auto !important;
-    margin: 0 !important;
+
+    margin: 0 0 16px 0 !important;
+
+    transform: none !important;
   }
 
+
   /* AI header */
+
   .ai-assistant-header,
   .chat-header {
+
     width: 100% !important;
-    min-height: 64px;
-    padding: 14px 16px !important;
+
+    min-height: 60px;
+
+    padding: 13px 15px !important;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
     border-radius: 16px 16px 0 0;
   }
 
-  /* Chat messages */
+
+  /* Chat */
+
   .messages,
   .chat-messages,
   .message-container {
+
     width: 100% !important;
+
     max-width: 100% !important;
-    height: 350px !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+
+    min-height: 280px;
+
+    height: 320px !important;
+
+    max-height: 320px !important;
+
     padding: 14px !important;
+
+    overflow-y: auto !important;
+
+    overflow-x: hidden !important;
   }
 
-  /* User / AI messages */
+
+  /* Message bubbles */
+
   .message,
   .user-message,
   .ai-message {
+
     max-width: 88% !important;
+
     width: fit-content;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-    margin-bottom: 10px;
+
+    padding: 11px 13px;
+
+    font-size: 15px;
+
+    line-height: 1.45;
   }
 
+
   /* Chat input */
+
   .chat-input,
   .ai-input {
+
     width: 100% !important;
-    padding: 12px !important;
+
+    display: flex;
+
+    gap: 8px;
+
+    padding: 10px !important;
   }
 
   .chat-input input,
   .ai-input input,
   .chat-input textarea,
   .ai-input textarea {
+
+    min-width: 0;
+
     width: 100% !important;
-    max-width: 100% !important;
+
+    font-size: 16px;
   }
 
-  /* =================================================
-     VOICE EXPENSE
-     ================================================= */
+  .chat-input button,
+  .ai-input button {
+
+    flex-shrink: 0;
+
+    padding: 10px 14px;
+  }
+
+
+  /* -----------------------------------------------
+     VOICE
+     ----------------------------------------------- */
 
   .voice-expense,
   .voice-container {
+
     width: 100% !important;
-    margin: 0 0 16px !important;
+
+    margin: 0 0 14px !important;
+
+    padding: 18px !important;
   }
 
-  /* =================================================
-     NAVIGATION
-     ================================================= */
 
-  .navbar,
-  nav {
-    width: 100% !important;
-    max-width: 100% !important;
+  /* -----------------------------------------------
+     LOGIN
+     ----------------------------------------------- */
+
+  .login-container,
+  .register-container {
+
+    min-height: 100vh;
+
+    padding: 16px;
   }
 
-  /* Don't allow navigation items to overflow */
-  nav ul {
+  .login-box,
+  .register-box {
+
     width: 100%;
-    padding: 0;
-    margin: 0;
+
+    max-width: 430px;
+
+    padding: 26px 20px;
+
+    border-radius: 16px;
   }
 
-  /* =================================================
-     PROFILE
-     ================================================= */
+  .login-box h1,
+  .register-box h1 {
 
-  .profile,
-  .profile-container {
-    max-width: 100% !important;
+    font-size: 26px;
+
+    margin-bottom: 24px;
+  }
+
+
+  /* -----------------------------------------------
+     TABLE
+     ----------------------------------------------- */
+
+  table {
+    min-width: 600px;
   }
 
 }
 
-/* =====================================================
-   SMALL PHONES
-   ===================================================== */
+
+/* =========================================================
+   23. SMALL MOBILE
+   ========================================================= */
 
 @media (max-width: 480px) {
 
@@ -246,221 +1284,107 @@ button {
   .dashboard,
   .dashboard-container,
   .container {
-    padding: 10px !important;
+    padding: 10px;
   }
 
-  h1 {
+
+  .dashboard h1 {
     font-size: 25px !important;
   }
 
+
   .card,
+  .dashboard-card,
   .budget-card,
   .income-card,
-  .expense-card,
-  .dashboard-card {
+  .expense-card {
     padding: 15px !important;
+
     border-radius: 14px;
+  }
+
+
+  /* AI */
+
+  .ai-assistant-header,
+  .chat-header {
+    padding: 12px !important;
   }
 
   .messages,
   .chat-messages,
   .message-container {
-    height: 320px !important;
+
+    height: 300px !important;
+
+    max-height: 300px !important;
+
+    padding: 12px !important;
+  }
+
+
+  .message,
+  .user-message,
+  .ai-message {
+
+    max-width: 92% !important;
+
+    font-size: 14px;
+
+    padding: 10px 12px;
+  }
+
+
+  /* Login */
+
+  .login-box,
+  .register-box {
+    padding: 22px 16px;
+  }
+
+
+  /* Buttons */
+
+  button {
+    font-size: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   24. EXTRA SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .app,
+  .dashboard,
+  .dashboard-container,
+  .container {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 23px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  .card,
+  .dashboard-card,
+  .budget-card,
+  .income-card,
+  .expense-card {
+    padding: 13px !important;
   }
 
   .message,
   .user-message,
   .ai-message {
-    max-width: 92% !important;
+    max-width: 95% !important;
   }
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
 
-body {
-  background: #F5F7FA;
-}
-
-nav {
-  background: #F5F7FA;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 25px;
-}
-
-nav li {
-  cursor: pointer;
-}
-
-.hero {
-  text-align: center;
-  margin-top: 120px;
-}
-
-.hero h1 {
-  font-size: 50px;
-  color: #2563eb;
-}
-
-.hero p {
-  margin-top: 20px;
-  font-size: 20px;
-}
-
-.hero button {
-  margin-top: 30px;
-  padding: 14px 35px;
-  background: #F5F7FA;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 18px;
-  transition: 0.3s;
-}
-
-.hero button:hover {
-  background: #F5F7FA;
-  transform: scale(1.05);
-}nav li:hover {
-  color: yellow;
-  transition: 0.3s;
-}
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  background: #F5F7FA;
-}
-
-.login-box {
-  width: 400px;
-  background: F5F7FA;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-.login-box h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.login-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  border: 1px solid gray;
-}
-
-.login-box button {
-  width: 100%;
-  padding: 12px;
-  background: #F5F7FA;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.login-box p {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.login-box span {
-  color: blue;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  background: #F5F7FA;
-}
-
-.register-box {
-  width: 420px;
-  background: #F5F7FA;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-.register-box h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.register-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 18px;
-  border-radius: 8px;
-  border: 1px solid gray;
-}
-
-.register-box button {
-  width: 100%;
-  padding: 12px;
-  background: #F5F7FA;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.register-box p {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.register-box span {
-  color: blue;
-  cursor: pointer;
-  font-weight: bold;
-}
-/* Modern finance cards */
-
-.budget-card,
-.income-card,
-.expense-card,
-.dashboard-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  color: #111827;
-}
-
-/* Budget */
-.budget-card {
-  border-left: 5px solid #2563eb;
-}
-
-/* Income */
-.income-card {
-  border-left: 5px solid #16a34a;
-}
-
-/* Expense */
-.expense-card {
-  border-left: 5px solid #dc2626;
 }
