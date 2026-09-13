@@ -1,3 +1,279 @@
+/* =====================================================
+   MOBILE-FIRST EXPENSE TRACKER
+   ===================================================== */
+
+/* Prevent horizontal scrolling */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Main app */
+.app,
+.dashboard,
+.dashboard-container,
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cards */
+.card,
+.budget-card,
+.income-card,
+.expense-card,
+.dashboard-card {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+/* Inputs */
+input,
+textarea,
+select,
+button {
+  max-width: 100%;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+  body {
+    background: #F5F7FA;
+    font-size: 15px;
+  }
+
+  /* Main containers */
+  .app,
+  .dashboard,
+  .dashboard-container,
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+  }
+
+  /* Remove desktop side-by-side layouts */
+  .row,
+  .dashboard-row,
+  .content,
+  .main-content {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 14px !important;
+  }
+
+  /* Every column takes full width */
+  .col,
+  .col-md-4,
+  .col-md-6,
+  .col-md-8,
+  .col-lg-4,
+  .col-lg-6,
+  .col-lg-8 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  /* Dashboard title */
+  h1 {
+    font-size: 28px !important;
+    line-height: 1.2;
+    text-align: center;
+    margin: 10px 0 20px;
+  }
+
+  h2 {
+    font-size: 22px !important;
+  }
+
+  h3 {
+    font-size: 19px !important;
+  }
+
+  /* =================================================
+     BUDGET / INCOME / EXPENSE CARDS
+     ================================================= */
+
+  .card,
+  .budget-card,
+  .income-card,
+  .expense-card,
+  .dashboard-card {
+    padding: 18px !important;
+    min-height: auto !important;
+  }
+
+  /* Budget input */
+  input {
+    width: 100% !important;
+    min-height: 52px;
+    font-size: 16px !important;
+  }
+
+  button {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  /* =================================================
+     AI ASSISTANT
+     ================================================= */
+
+  .ai-assistant,
+  .ai-chat,
+  .chat-container,
+  .chat-box,
+  .assistant-container {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  /* AI header */
+  .ai-assistant-header,
+  .chat-header {
+    width: 100% !important;
+    min-height: 64px;
+    padding: 14px 16px !important;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Chat messages */
+  .messages,
+  .chat-messages,
+  .message-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 350px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 14px !important;
+  }
+
+  /* User / AI messages */
+  .message,
+  .user-message,
+  .ai-message {
+    max-width: 88% !important;
+    width: fit-content;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    margin-bottom: 10px;
+  }
+
+  /* Chat input */
+  .chat-input,
+  .ai-input {
+    width: 100% !important;
+    padding: 12px !important;
+  }
+
+  .chat-input input,
+  .ai-input input,
+  .chat-input textarea,
+  .ai-input textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* =================================================
+     VOICE EXPENSE
+     ================================================= */
+
+  .voice-expense,
+  .voice-container {
+    width: 100% !important;
+    margin: 0 0 16px !important;
+  }
+
+  /* =================================================
+     NAVIGATION
+     ================================================= */
+
+  .navbar,
+  nav {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Don't allow navigation items to overflow */
+  nav ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* =================================================
+     PROFILE
+     ================================================= */
+
+  .profile,
+  .profile-container {
+    max-width: 100% !important;
+  }
+
+}
+
+/* =====================================================
+   SMALL PHONES
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+  .app,
+  .dashboard,
+  .dashboard-container,
+  .container {
+    padding: 10px !important;
+  }
+
+  h1 {
+    font-size: 25px !important;
+  }
+
+  .card,
+  .budget-card,
+  .income-card,
+  .expense-card,
+  .dashboard-card {
+    padding: 15px !important;
+    border-radius: 14px;
+  }
+
+  .messages,
+  .chat-messages,
+  .message-container {
+    height: 320px !important;
+  }
+
+  .message,
+  .user-message,
+  .ai-message {
+    max-width: 92% !important;
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -6,11 +282,11 @@
 }
 
 body {
-  background: #f5f7fa;
+  background: #F5F7FA;
 }
 
 nav {
-  background: #2563eb;
+  background: #F5F7FA;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -46,7 +322,7 @@ nav li {
 .hero button {
   margin-top: 30px;
   padding: 14px 35px;
-  background: #2563eb;
+  background: #F5F7FA;
   color: white;
   border: none;
   border-radius: 10px;
@@ -56,7 +332,7 @@ nav li {
 }
 
 .hero button:hover {
-  background: #1d4ed8;
+  background: #F5F7FA;
   transform: scale(1.05);
 }nav li:hover {
   color: yellow;
@@ -67,12 +343,12 @@ nav li {
   justify-content: center;
   align-items: center;
   height: 90vh;
-  background: #f5f7fa;
+  background: #F5F7FA;
 }
 
 .login-box {
   width: 400px;
-  background: white;
+  background: F5F7FA;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -94,7 +370,7 @@ nav li {
 .login-box button {
   width: 100%;
   padding: 12px;
-  background: #2563eb;
+  background: #F5F7FA;
   color: white;
   border: none;
   border-radius: 8px;
@@ -117,12 +393,12 @@ nav li {
   justify-content: center;
   align-items: center;
   height: 90vh;
-  background: #f5f7fa;
+  background: #F5F7FA;
 }
 
 .register-box {
   width: 420px;
-  background: white;
+  background: #F5F7FA;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -144,7 +420,7 @@ nav li {
 .register-box button {
   width: 100%;
   padding: 12px;
-  background: green;
+  background: #F5F7FA;
   color: white;
   border: none;
   border-radius: 8px;
@@ -160,4 +436,31 @@ nav li {
   color: blue;
   cursor: pointer;
   font-weight: bold;
+}
+/* Modern finance cards */
+
+.budget-card,
+.income-card,
+.expense-card,
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  color: #111827;
+}
+
+/* Budget */
+.budget-card {
+  border-left: 5px solid #2563eb;
+}
+
+/* Income */
+.income-card {
+  border-left: 5px solid #16a34a;
+}
+
+/* Expense */
+.expense-card {
+  border-left: 5px solid #dc2626;
 }
