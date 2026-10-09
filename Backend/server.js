@@ -1,3 +1,6 @@
+import savingsGoalRoutes from "./routes/savingsGoalRoutes.js";
+import dns from "node:dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -10,7 +13,6 @@ import budgetRoutes from "./routes/budgetRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import expenseRoutes from "./routes/expenseRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
-import aiChatRoutes from "./routes/aiChatRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import voiceRoutes from "./routes/voiceRoutes.js";
 console.log("Starting server...");
@@ -27,8 +29,7 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/voice", voiceRoutes);
 app.use("/api/budget", budgetRoutes);
 app.use("/api/chat", chatRoutes);
-app.use("/api/chat", aiChatRoutes);
-
+app.use("/api/savings-goals", savingsGoalRoutes);
 app.get("/", (req, res) => {
   res.send("Expense Tracker Backend Running...");
 });
