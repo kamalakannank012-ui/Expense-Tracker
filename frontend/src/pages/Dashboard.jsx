@@ -12,6 +12,7 @@ import PieChartComponent from "../components/PieChartComponent";
 import BarChartComponent from "../components/BarChartComponent";
 import AIChat from "../components/AIChat";
 import VoiceExpense from "../components/VoiceExpense";
+import SmartSavings from "../components/SmartSavings";
 
 function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -454,30 +455,34 @@ function Dashboard() {
   /* =========================
      AI FINANCIAL ADVICE
   ========================= */
-  const getAIAdvice = async () => {
-    try {
-      const res = await API.post(
-        "/ai/advice",
-        {
-          expenses,
-        }
-      );
+  
+const getAIAdvice = async () => {
+  try {
+    const res = await API.post("/ai/advice", {
+      expenses,
+    });
 
-      console.log(res.data);
+    console.log("AI Advice API response:", res.data);
 
-      setAiAdvice(res.data.advice);
-
-      toast.success(
-        "AI Financial Analysis Ready"
-      );
-    } catch (error) {
-      console.log(error);
-
-      toast.error(
-        "Failed to get AI Advice"
-      );
+    if (!res.data || !res.data.advice) {
+      throw new Error("AI advice was not returned by the server.");
     }
-  };
+
+    setAiAdvice(res.data.advice);
+    toast.success("AI Financial Analysis Ready");
+  } catch (error) {
+    console.error("AI Financial Advice Error:", error);
+    console.error("Server response:", error.response?.data);
+    console.error("HTTP status:", error.response?.status);
+
+    toast.error(
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message ||
+      "Failed to get AI Advice"
+    );
+  }
+};
 
   /* =========================
      LOGOUT
@@ -1617,6 +1622,8 @@ function Dashboard() {
         </div>
 
       </section>
+      
+      <SmartSavings expenses={expenses} />
 
 
       {/* ==================================================
